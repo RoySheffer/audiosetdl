@@ -276,6 +276,7 @@ def ffmpeg(ffmpeg_path, input_path, output_path, input_args=None,
                 continue
 
             LOGGER.error(str(e) + '. Retrying...')
+            clean_cache()
             if os.path.exists(output_path):
                 os.remove(output_path)
 
@@ -294,6 +295,7 @@ def ffmpeg(ffmpeg_path, input_path, output_path, input_args=None,
                 output_args[duration_idx] = str(float(output_args[duration_idx]) + duration_diff)
 
             LOGGER.warning(str(e) +'; Retrying...')
+            clean_cache()
             continue
 
         except FfmpegValidationError as e:
@@ -302,6 +304,7 @@ def ffmpeg(ffmpeg_path, input_path, output_path, input_args=None,
                 os.remove(output_path)
             # Retry if the output did not validate
             LOGGER.info('ffmpeg output file "{}" did not validate: {}. Retrying...'.format(output_path, e))
+            clean_cache()
             continue
     else:
         error_msg = 'Maximum number of retries ({}) reached. Could not obtain inputs at {}. Error: {}'
