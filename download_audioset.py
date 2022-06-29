@@ -550,6 +550,7 @@ def segment_mp_worker(ytid, ts_start, ts_end, data_dir, ffmpeg_path,
                        (Type: dict[str, *])
     """
     LOGGER.info('Attempting to download video {} ({} - {})'.format(ytid, ts_start, ts_end))
+    clean_cache()
 
     # Download the video
     try:
@@ -662,8 +663,7 @@ def download_subset_videos(subset_path, data_dir, ffmpeg_path, ffprobe_path,
         pool = mp.Pool(num_workers)
         try:
             for row_idx, row in enumerate(subset_data):
-                if row_idx % 5:
-                    clean_cache()
+
                 # Skip commented lines
                 if row[0][0] == '#':
                     continue
@@ -681,9 +681,9 @@ def download_subset_videos(subset_path, data_dir, ffmpeg_path, ffprobe_path,
                     continue
 
                 worker_args = [ytid, ts_start, ts_end, data_dir, ffmpeg_path, ffprobe_path]
-                # pool.apply_async(partial(segment_mp_worker, **ffmpeg_cfg), worker_args)
+                pool.apply_async(partial(segment_mp_worker, **ffmpeg_cfg), worker_args)
                 # Run serially
-                segment_mp_worker(*worker_args, **ffmpeg_cfg)
+                # segment_mp_worker(*worker_args, **ffmpeg_cfg)
 
         except csv.Error as e:
             err_msg = 'Encountered error in {} at line {}: {}'
