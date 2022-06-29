@@ -34,6 +34,7 @@ def run_command(cmd, **kwargs):
     return_code = proc.returncode
 
     if return_code != 0:
+        print("ERR:", stderr)
         raise SubprocessError(cmd, return_code, stdout, stderr)
 
     return stdout, stderr, return_code
