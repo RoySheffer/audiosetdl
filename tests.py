@@ -28,3 +28,8 @@ download_yt_video(ytid, ts_start, ts_end, output_dir, ffmpeg_path, ffprobe_path,
 
 # youtube-dl --rm-cache-dir
 # data --ffmpeg C:\ffmpeg\bin\ffmpeg.exe --ffprobe C:\ffmpeg\bin\ffprobe.exe --audio-sample-rate 16000 --audio-format wav
+
+# data --ffmpeg /usr/bin/ffprobe --ffprobe /usr/bin/ffmpeg  --audio-sample-rate 16000 --audio-format wav
+
+# linux
+

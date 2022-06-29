@@ -571,7 +571,7 @@ def init_subset_data_dir(dataset_dir, subset_name):
                    (Type: str)
     """
     # Derive audio and video directory names for this subset
-    data_dir = os.path.join(dataset_dir, 'data', subset_name)
+    data_dir = os.path.join(dataset_dir, subset_name)
     audio_dir = os.path.join(data_dir, 'audio')
     video_dir = os.path.join(data_dir, 'video')
     os.makedirs(audio_dir, exist_ok=True)
