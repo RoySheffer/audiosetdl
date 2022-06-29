@@ -621,11 +621,10 @@ def download_subset_file(subset_url, dataset_dir):
     return subset_path
 
 def clean_cache():
-    cmd = "youtube-dl --rm-cache-dir"
-    proc = sp.Popen(cmd, stdout=sp.PIPE, stderr=sp.PIPE, universal_newlines=True)
+    cmd = ["youtube-dl", "--rm-cache-dir"]
+    proc = sp.Popen(cmd, stdout=sp.PIPE, stderr=sp.PIPE)
     stdout, stderr = proc.communicate()
     return_code = proc.returncode
-    print(return_code, stdout, stderr)
 
 def download_subset_videos(subset_path, data_dir, ffmpeg_path, ffprobe_path,
                            num_workers, **ffmpeg_cfg):
