@@ -652,7 +652,9 @@ def download_subset_videos(subset_path, data_dir, ffmpeg_path, ffprobe_path,
                 # Skip commented lines
                 if row[0][0] == '#':
                     continue
-                ytid, ts_start, ts_end = row[0], float(row[1]), float(row[2])
+                # ytid, ts_start, ts_end = row[0], float(row[1]), float(row[2])
+                ytid, ts_start, label, set= row[0], float(row[1]), row[2], row[3]
+                ts_end = ts_start + 10
 
                 # Skip files that already have been downloaded
                 media_filename = get_media_filename(ytid, ts_start, ts_end)
@@ -876,12 +878,16 @@ def download_audioset(data_dir, ffmpeg_path, ffprobe_path, eval_segments_path,
     LOGGER.debug('Initialized logging.')
 
 
-    download_subset(eval_segments_path, data_dir, ffmpeg_path, ffprobe_path,
-                    num_workers, **ffmpeg_cfg)
-    download_subset(balanced_train_segments_path, data_dir, ffmpeg_path, ffprobe_path,
-                    num_workers, **ffmpeg_cfg)
-    download_subset(unbalanced_train_segments_path, data_dir, ffmpeg_path, ffprobe_path,
-                    num_workers, **ffmpeg_cfg)
+    segments_path = r"C:\Roy\Msc\audiosetdl\vggsound.csv"
+    download_subset(segments_path, data_dir, ffmpeg_path, ffprobe_path, 1, **ffmpeg_cfg)
+
+
+    # download_subset(eval_segments_path, data_dir, ffmpeg_path, ffprobe_path,
+    #                 num_workers, **ffmpeg_cfg)
+    # download_subset(balanced_train_segments_path, data_dir, ffmpeg_path, ffprobe_path,
+    #                 num_workers, **ffmpeg_cfg)
+    # download_subset(unbalanced_train_segments_path, data_dir, ffmpeg_path, ffprobe_path,
+    #                 num_workers, **ffmpeg_cfg)
 
 
 if __name__ == '__main__':
