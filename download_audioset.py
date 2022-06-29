@@ -15,7 +15,7 @@ import sys
 import traceback as tb
 import urllib.request
 from functools import partial
-
+import subprocess as sp
 import multiprocessing_logging
 import pafy
 
@@ -43,6 +43,14 @@ def parse_arguments():
                (Type: dict[str, str])
     """
     parser = argparse.ArgumentParser(description='Download AudioSet data locally')
+
+    parser.add_argument('-dp',
+                        '--dataPath',
+                        dest='dataPath',
+                        action='store',
+                        type=str,
+                        default=r"C:\Roy\Msc\audiosetdl\vggsound.csv",
+                        help='Path to data csv')
 
     parser.add_argument('-f',
                         '--ffmpeg',
@@ -612,6 +620,12 @@ def download_subset_file(subset_url, dataset_dir):
 
     return subset_path
 
+def clean_cache():
+    cmd = "youtube-dl --rm-cache-dir"
+    proc = sp.Popen(cmd, stdout=sp.PIPE, stderr=sp.PIPE, universal_newlines=True)
+    stdout, stderr = proc.communicate()
+    return_code = proc.returncode
+    print(return_code, stdout, stderr)
 
 def download_subset_videos(subset_path, data_dir, ffmpeg_path, ffprobe_path,
                            num_workers, **ffmpeg_cfg):
@@ -649,6 +663,8 @@ def download_subset_videos(subset_path, data_dir, ffmpeg_path, ffprobe_path,
         pool = mp.Pool(num_workers)
         try:
             for row_idx, row in enumerate(subset_data):
+                if row_idx % 5:
+                    clean_cache()
                 # Skip commented lines
                 if row[0][0] == '#':
                     continue
@@ -666,9 +682,9 @@ def download_subset_videos(subset_path, data_dir, ffmpeg_path, ffprobe_path,
                     continue
 
                 worker_args = [ytid, ts_start, ts_end, data_dir, ffmpeg_path, ffprobe_path]
-                pool.apply_async(partial(segment_mp_worker, **ffmpeg_cfg), worker_args)
+                # pool.apply_async(partial(segment_mp_worker, **ffmpeg_cfg), worker_args)
                 # Run serially
-                #segment_mp_worker(*worker_args, **ffmpeg_cfg)
+                segment_mp_worker(*worker_args, **ffmpeg_cfg)
 
         except csv.Error as e:
             err_msg = 'Encountered error in {} at line {}: {}'
@@ -827,7 +843,7 @@ def download_subset(subset_path, dataset_dir, ffmpeg_path, ffprobe_path,
 def download_audioset(data_dir, ffmpeg_path, ffprobe_path, eval_segments_path,
                       balanced_train_segments_path, unbalanced_train_segments_path,
                       disable_logging=False, verbose=False, num_workers=4,
-                      log_path=None, **ffmpeg_cfg):
+                      log_path=None, dataPath=None, **ffmpeg_cfg):
     """
     Download AudioSet files
 
@@ -877,10 +893,7 @@ def download_audioset(data_dir, ffmpeg_path, ffprobe_path, eval_segments_path,
     multiprocessing_logging.install_mp_handler()
     LOGGER.debug('Initialized logging.')
 
-
-    # segments_path = r"C:\Roy\Msc\audiosetdl\vggsound.csv"
-    segments_path = r"/cs/labs/adiyoss/roysheffer/audiosetdl/vggsound.csv"
-    download_subset(segments_path, data_dir, ffmpeg_path, ffprobe_path, 1, **ffmpeg_cfg)
+    download_subset(dataPath, data_dir, ffmpeg_path, ffprobe_path, 1, **ffmpeg_cfg)
 
 
     # download_subset(eval_segments_path, data_dir, ffmpeg_path, ffprobe_path,
