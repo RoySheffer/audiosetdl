@@ -878,7 +878,8 @@ def download_audioset(data_dir, ffmpeg_path, ffprobe_path, eval_segments_path,
     LOGGER.debug('Initialized logging.')
 
 
-    segments_path = r"C:\Roy\Msc\audiosetdl\vggsound.csv"
+    # segments_path = r"C:\Roy\Msc\audiosetdl\vggsound.csv"
+    segments_path = r"/cs/labs/adiyoss/roysheffer/audiosetdl/vggsound.csv"
     download_subset(segments_path, data_dir, ffmpeg_path, ffprobe_path, 1, **ffmpeg_cfg)
 
 
