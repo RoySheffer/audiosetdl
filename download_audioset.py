@@ -623,6 +623,7 @@ def init_subset_data_dir(dataset_dir, subset_name, simpleFull):
     if simpleFull:
         output_dir = data_dir
         save_dir = os.path.join(output_dir, 'full')
+        os.makedirs(save_dir, exist_ok=True)
         os.chdir(save_dir)
 
     return data_dir
