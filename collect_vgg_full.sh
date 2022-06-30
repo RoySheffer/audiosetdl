@@ -8,5 +8,5 @@ python $CWD/download_audioset.py /cs/dataset/Download/adiyoss/sheffer \
 --audio-sample-rate 16000 \
 --audio-format wav \
 --num-workers 10 \
---simpleFull True
+--simpleFull True \
 --dataPath /cs/labs/adiyoss/roysheffer/audiosetdl/vggsound.csv
