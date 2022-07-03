@@ -19,7 +19,7 @@ for flac in flacs:
     file_path = PurePath(flac)
     wav_name = os.path.join(resultsDir, f'{filename}.wav')
     if os.path.exists(wav_name):
-        print(f"{wav_name} Already exist")
+        # print(f"{wav_name} Already exist")
         continue
     try:
         flac_tmp_audio_data = AudioSegment.from_file(file_path, file_path.suffix[1:])
