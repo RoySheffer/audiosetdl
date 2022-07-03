@@ -23,7 +23,7 @@ for flac in flacs:
         continue
     try:
         flac_tmp_audio_data = AudioSegment.from_file(file_path, file_path.suffix[1:])
-        flac_tmp_audio_data.exportwav_name(wav_name, format="wav")
+        flac_tmp_audio_data.export(wav_name, format="wav")
     except Exception as e:
         err_msg = '{} Error while processing video: {}; {} {}'.format(file_path, e, tb.format_exc(), "\n-----------------------------------------------------------------------\n")
         print(err_msg)
