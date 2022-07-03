@@ -25,6 +25,7 @@ for flac in flacs:
         flac_tmp_audio_data = AudioSegment.from_file(file_path, file_path.suffix[1:])
         flac_tmp_audio_data.export(wav_name, format="wav")
     except Exception as e:
-        err_msg = '{} Error while processing video: {}; {} {}'.format(file_path, e, tb.format_exc(), "\n-----------------------------------------------------------------------\n")
+        err_msg = '{}: \nError while processing video: {}; {} {}'.format(file_path, e, tb.format_exc(), "\n-----------------------------------------------------------------------\n")
         print(err_msg)
+        os.remove(flac)
         continue
