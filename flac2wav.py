@@ -27,5 +27,7 @@ for flac in flacs:
     except Exception as e:
         err_msg = '{}: \nError while processing aduio: {}; {} {}'.format(file_path, e, tb.format_exc(), "\n-----------------------------------------------------------------------\n")
         print(err_msg)
+        if not os.path.exists(flac):
+            continue
         os.remove(flac)
         continue
