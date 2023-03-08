@@ -20,6 +20,8 @@ import multiprocessing_logging
 import pafy
 import youtube_dl
 
+# ./audiocaps --ffmpeg C:\ffmpeg\bin\ffmpeg.exe --ffprobe C:\ffmpeg\bin\ffprobe.exe --audio-sample-rate 16000 --audio-format wav --video-format mp4 --dataPath C:\Roy\Msc\audiosetdl\audiocaps\train.csv
+
 from errors import SubprocessError, FfmpegValidationError, FfmpegIncorrectDurationError
 from log import init_file_logger, init_console_logger
 from utils import run_command, is_url, get_filename, \
@@ -710,7 +712,14 @@ def download_subset_videos(subset_path, data_dir, ffmpeg_path, ffprobe_path,
                 if row[0][0] == '#':
                     continue
                 # ytid, ts_start, ts_end = row[0], float(row[1]), float(row[2])
-                ytid, ts_start, label, set= row[0], float(row[1]), row[2], row[3]
+                if True:
+                    if row_idx == 0:
+                        continue
+                    audiocap_id, ytid, ts_start, label = row
+                else:
+                    ytid, ts_start, label, set = row[0], float(row[1]), row[2], row[3]
+                ts_start = float(ts_start)
+
                 ts_end = ts_start + 10
 
                 # Skip files that already have been downloaded
