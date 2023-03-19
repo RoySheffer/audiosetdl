@@ -712,15 +712,23 @@ def download_subset_videos(subset_path, data_dir, ffmpeg_path, ffprobe_path,
                 if row[0][0] == '#':
                     continue
                 # ytid, ts_start, ts_end = row[0], float(row[1]), float(row[2])
-                if True:
-                    if row_idx == 0:
-                        continue
-                    audiocap_id, ytid, ts_start, label = row
-                else:
-                    ytid, ts_start, label, set = row[0], float(row[1]), row[2], row[3]
-                ts_start = float(ts_start)
+                # if row_idx == 0:
+                #     continue
+                # audiocap_id, ytid, ts_start, label = row
+                # ts_start = float(ts_start)
+                # ts_end = ts_start + 10
 
-                ts_end = ts_start + 10
+                # ytid, ts_start, label, set = row[0], float(row[1]), row[2], row[3]
+                # ts_end = ts_start + 10
+
+                if row_idx < 3:
+                    continue
+                ytid, ts_start, ts_end, positive_labels = row
+                ts_start, ts_end = float(ts_start), float(ts_end)
+
+
+
+
 
                 # Skip files that already have been downloaded
                 media_filename = get_media_filename(ytid, ts_start, ts_end)
