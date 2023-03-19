@@ -726,8 +726,7 @@ def download_subset_videos(subset_path, data_dir, ffmpeg_path, ffprobe_path,
 
                 if row_idx < 3:
                     continue
-                print(row)
-                ytid, ts_start, ts_end, positive_labels = row
+                ytid, ts_start, ts_end, positive_labels = row[0], float(row[1]), float(row[2]), row[3:]
                 ts_start, ts_end = float(ts_start), float(ts_end)
 
 
