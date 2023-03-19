@@ -487,6 +487,9 @@ def download_yt_video(ytid, ts_start, ts_end, output_dir, ffmpeg_path, ffprobe_p
            validation_args={'audio_info': audio_info,
                             'end_past_video_end': end_past_video_end})
 
+    if True:
+        return video_filepath, audio_filepath
+
     if video_mode != 'bestvideowithaudio':
         # Download the video
         video_input_args = ['-n', '-ss', str(ts_start)]
