@@ -703,6 +703,7 @@ def download_subset_videos(subset_path, data_dir, ffmpeg_path, ffprobe_path,
     LOGGER.info('Starting download jobs for subset "{}"'.format(subset_name))
     with open(subset_path, 'r') as f:
         subset_data = csv.reader(f)
+        subset_data = reversed(list(csv.reader(subset_data)))
 
         # Set up multiprocessing pool
         num_workers = mp.cpu_count()
@@ -724,8 +725,8 @@ def download_subset_videos(subset_path, data_dir, ffmpeg_path, ffprobe_path,
                 # ytid, ts_start, label, set = row[0], float(row[1]), row[2], row[3]
                 # ts_end = ts_start + 10
 
-                if row_idx < 3:
-                    continue
+                # if row_idx < 3:
+                #     continue
                 ytid, ts_start, ts_end, positive_labels = row[0], float(row[1]), float(row[2]), row[3:]
                 ts_start, ts_end = float(ts_start), float(ts_end)
 
